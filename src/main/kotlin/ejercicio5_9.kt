@@ -11,14 +11,11 @@ class Persona(val DNI: String) {
 
     private var numCuentas = 0
     fun addCuenta(account: Cuenta): Boolean {
-        var i: Int = 0
-        return if (i < 4) {
-            accounts[i] = account
-            i++
+        return if (numCuentas < 4) {
+            accounts[numCuentas] = account
+            numCuentas++
             true
-        } else {
-            false
-        }
+        } else false
     }
     fun esMorosa(): Boolean {}
 }
@@ -28,6 +25,6 @@ fun main() {
      * Ejercicio 5.9
      */
     val p = Persona("49078667W")
-    p.addCuenta("45931857AC")
+    p.addCuenta(Cuenta("45931857AC",0.0))
     //p.addCuenta("53759257RV",700.0)
 }
