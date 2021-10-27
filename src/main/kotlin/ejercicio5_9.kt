@@ -1,3 +1,4 @@
+import jdk.nashorn.internal.objects.NativeArray.forEach
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -17,7 +18,14 @@ class Persona(val DNI: String) {
             true
         } else false
     }
-    fun esMorosa(): Boolean {}
+    fun esMorosa(): Boolean {
+        accounts.forEach {
+            if (it?.saldo!! < 0.0) {
+                return true
+            }
+        }
+        return false
+    }
 }
 
 fun main() {
@@ -26,5 +34,7 @@ fun main() {
      */
     val p = Persona("49078667W")
     p.addCuenta(Cuenta("45931857AC",0.0))
+    p.addCuenta(Cuenta("45931857BD",700.0))
+    p.esMorosa()
     //p.addCuenta("53759257RV",700.0)
 }
