@@ -3,8 +3,14 @@ import java.util.*
 import kotlin.system.exitProcess
 
 open class Cuenta (open val numCuenta: String, open var saldo: Double) {
-    open fun recibirAbono(abono: Double): Double {}
-    open fun realizarPago(pago: Double): Double {}
+    open fun recibirAbono(abono: Double): Double {
+        saldo += abono
+        return saldo
+    }
+    open fun realizarPago(pago: Double): Double {
+        saldo -= pago
+        return saldo
+    }
 }
 
 class Persona(val DNI: String) {
@@ -19,10 +25,13 @@ class Persona(val DNI: String) {
         } else false
     }
     fun esMorosa(): Boolean {
-        accounts.forEach {
-            if (it?.saldo!! < 0.0) {
-                return true
+        run a@{
+            accounts.forEach {
+                if (it!!.saldo < 0.0) {
+                    return@a
+                }
             }
+            return true
         }
         return false
     }
@@ -33,8 +42,11 @@ fun main() {
      * Ejercicio 5.9
      */
     val p = Persona("49078667W")
+    val c1 = Cuenta("45931857AC",0.0)
+    val c2 = Cuenta("45931857BD",700.0)
     p.addCuenta(Cuenta("45931857AC",0.0))
     p.addCuenta(Cuenta("45931857BD",700.0))
+    c1.recibirAbono(1100.0)
+    c2.realizarPago(750.0)
     p.esMorosa()
-    //p.addCuenta("53759257RV",700.0)
 }
