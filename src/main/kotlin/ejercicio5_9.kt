@@ -1,39 +1,51 @@
-import jdk.nashorn.internal.objects.NativeArray.forEach
+import org.jetbrains.annotations.TestOnly
 import java.util.*
-import kotlin.system.exitProcess
 
-open class Cuenta (open val numCuenta: String, open var saldo: Double) {
-    open fun recibirAbono(abono: Double): Double {
+class Cuenta (val numCuenta: String, var saldo: Double) {
+    fun recibirAbono() {
+        println("Introduzca el saldo a añadir")
+        val abono = readLine()!!.toDouble()
         saldo += abono
-        return saldo
     }
-    open fun realizarPago(pago: Double): Double {
+    fun realizarPago() {
+        println("Introduzca el saldo a pagar")
+        val pago = readLine()!!.toDouble()
         saldo -= pago
-        return saldo
+    }
+    fun hacerTransferencia(importe: Double, cuentaIngreso: Cuenta) {
+        saldo -= importe
+        cuentaIngreso.saldo += importe
+        println("Se ha realizado una transferencia de $importe desde la cuenta $numCuenta a la cuenta ${cuentaIngreso.numCuenta}")
+        println("El nuevo saldo de la cuenta de pago $numCuenta es $saldo")
+        println("El nuevo saldo de la cuenta de ingreso ${cuentaIngreso.numCuenta} es ${cuentaIngreso.saldo}")
     }
 }
 
 class Persona(val DNI: String) {
-    private var accounts: Array<Cuenta?> = arrayOfNulls<Cuenta>(3)
+    val lisCuenta = arrayListOf<Cuenta>()
 
-    private var numCuentas = 0
-    fun addCuenta(account: Cuenta): Boolean {
-        return if (numCuentas < 4) {
-            accounts[numCuentas] = account
-            numCuentas++
-            true
-        } else false
+    fun añadirCuenta(cuentaNueva: Cuenta) {
+        if (lisCuenta.size <= 3) {
+            lisCuenta.add(cuentaNueva)
+        } else
+            println("Esta persona ya tiene tres cuentas asociadas")
     }
-    fun esMorosa(): Boolean {
-        run a@{
-            accounts.forEach {
-                if (it!!.saldo < 0.0) {
-                    return@a
-                }
-            }
-            return true
+
+    fun esMoroso() {
+        var moroso : Boolean = false
+        val contadorMax = lisCuenta.size
+        var i = 0
+        do{
+            val cActual = lisCuenta[i]
+            if (cActual.saldo < 0){
+                println("Esta persona es morosa")
+                moroso = true
+            }else
+                i++
+        }while (!moroso && i != contadorMax)
+        if(!moroso){
+            println("Esta persona no es morosa")
         }
-        return false
     }
 }
 
@@ -41,12 +53,11 @@ fun main() {
     /**
      * Ejercicio 5.9
      */
-    val p = Persona("49078667W")
-    val c1 = Cuenta("45931857AC",0.0)
-    val c2 = Cuenta("45931857BD",700.0)
-    p.addCuenta(Cuenta("45931857AC",0.0))
-    p.addCuenta(Cuenta("45931857BD",700.0))
-    c1.recibirAbono(1100.0)
-    c2.realizarPago(750.0)
-    p.esMorosa()
+    val cuenta1 = Cuenta("3453453GDG", 600.0)
+    val cuenta2 = Cuenta("2323545DCA",150.0)
+    val persona1 = Persona("4545745H")
+    persona1.añadirCuenta(cuenta1)
+    persona1.añadirCuenta(cuenta2)
+    persona1.esMoroso()
+    cuenta1.hacerTransferencia(20.0, cuenta2)
 }
