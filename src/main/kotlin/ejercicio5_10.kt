@@ -14,7 +14,7 @@ class Libros(var titulo: String, var autor: String, var npag: Int, var cal:Int) 
     }
 
     fun calificacion() {
-        println("¿Que Calficacion le das al libro?")
+        println("¿Que Calificación le das al libro?")
         val ca = readLine()!!.toInt()
         if (ca <= 10) {
             cal = ca
@@ -24,10 +24,10 @@ class Libros(var titulo: String, var autor: String, var npag: Int, var cal:Int) 
     }
 }
 
-class ConjuntoLibros(var can: Int) {
-    val conjunto = arrayListOf<Libros>()
+class ConjuntoLibros(private var can: Int) {
+    private val conjunto = arrayListOf<Libros>()
 
-    fun anadirLibro(LibrosNueva: Libros) {
+    fun añadirLibro(LibrosNueva: Libros) {
         if (conjunto.size <= can) {
             conjunto.add(LibrosNueva)
             println("Esta dentro correctamente")
@@ -36,7 +36,7 @@ class ConjuntoLibros(var can: Int) {
     }
 
     fun eliminarLibro(campo: String) {
-        var eliminado : Boolean = false
+        var eliminado  = false
         val contadorMax = conjunto.size
         var i = 0
         do {
@@ -49,7 +49,7 @@ class ConjuntoLibros(var can: Int) {
                 i++
         } while (!eliminado && i != contadorMax)
         if(!eliminado){
-            println("No hay ningun libro con ese campo")
+            println("No hay ningún libro con ese campo")
         }
     }
     fun mecalificacion(){
@@ -65,14 +65,14 @@ class ConjuntoLibros(var can: Int) {
             if(conca.cal > califi){
                 califi = conca.cal
                 sal = i
-                println("La calificacion mas alta es de $califi")
+                println("La calificación mas alta es de $califi")
                 val li = conjunto[sal]
                 println("Y el libro es ${li.titulo}")
             }
             if(conca.cal< califimin){
                 califimin = conca.cal
                 salmin = i
-                println("La calificacion mas baja es de $califimin")
+                println("La calificación mas baja es de $califimin")
                 val limin = conjunto[salmin]
                 println("Y el libro es ${limin.titulo}")
             }
@@ -81,10 +81,10 @@ class ConjuntoLibros(var can: Int) {
             }
         }while (i != contadorMax)
         if (i != contadorMax){
-            println("La calificacion mas alta es de $califi")
+            println("La calificación mas alta es de $califi")
             val li = conjunto[sal]
             println("Y el libro es ${li.titulo}")
-            println("La calificacion mas baja es de $califimin")
+            println("La calificación mas baja es de $califimin")
             val limin = conjunto[salmin]
             println("Y el libro es ${limin.titulo}")
         }
@@ -98,7 +98,7 @@ class ConjuntoLibros(var can: Int) {
                 println("El libro se llama ${todo.titulo}")
                 println("Tiene un total de ${todo.npag} paginas")
                 println("Su autor se llama ${todo.autor}")
-                println("Su calificacion es ${todo.cal}")
+                println("Su calificación es ${todo.cal}")
                 i++
             }
         }while (i != contadorMax)
@@ -109,12 +109,12 @@ fun main() {
     val libro1 = Libros("coche","Alfonso",100,10)
     val libro2 = Libros("moto","Juan",200,5)
     val vector = ConjuntoLibros(3)
-    vector.anadirLibro(libro1)
-    vector.anadirLibro(libro2)
+    vector.añadirLibro(libro1)
+    vector.añadirLibro(libro2)
     vector.mecalificacion()
     vector.eliminarLibro("coche")
     vector.eliminarLibro("moto")
     val libro3 = Libros("camion","Juanma",300,9)
-    vector.anadirLibro(libro3)
+    vector.añadirLibro(libro3)
     vector.mostrarTodo()
 }
